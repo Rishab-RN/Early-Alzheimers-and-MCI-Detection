@@ -447,7 +447,7 @@ This structure describes the intended organisation; directories and files will b
 Clone the repository:
 
 ```bash
-git clone <YOUR_REPOSITORY_URL>
+git clone https://github.com/Rishab-RN/Early-Alzheimers-and-MCI-Detection.git
 cd alzheimer-mri-reliability
 ```
 
@@ -480,19 +480,6 @@ Do not upload raw MRI scans, identifiable clinical information, or dataset crede
 
 Training and evaluation commands will be documented as the corresponding modules are implemented.
 
----
-
-## Research Team
-
-**Project:** Alzheimer's MRI Reliability Assessment
-
-**Programme:** B.E. Computer Science and Engineering — Artificial Intelligence and Machine Learning
-
-**Institution:** R.V. College of Engineering, Bengaluru
-
-**Team size:** Two members
-
-**Faculty supervisor:** To be added
 
 ---
 

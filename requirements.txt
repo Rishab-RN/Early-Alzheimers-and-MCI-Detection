@@ -1,0 +1,55 @@
+# Alzheimer's MRI Reliability Research
+
+# Numerical computing
+numpy>=1.26,<2.3
+scipy>=1.12
+pandas>=2.2
+scikit-learn>=1.5
+
+# Deep learning
+# Install PyTorch separately using the official
+# installation selector for your hardware.
+# torch
+# torchvision
+
+# Medical image analysis
+monai>=1.4,<2.0
+nibabel>=5.2
+nilearn>=0.11
+SimpleITK>=2.3
+
+# MRI preprocessing and image processing
+scikit-image>=0.23
+opencv-python-headless>=4.9
+Pillow>=10.3
+
+# Explainable AI
+captum>=0.7
+shap>=0.46
+
+# Data visualisation
+matplotlib>=3.8
+seaborn>=0.13
+plotly>=5.20
+
+# Configuration and utilities
+PyYAML>=6.0
+tqdm>=4.66
+joblib>=1.4
+
+# Experiment tracking
+mlflow>=2.15
+
+# Statistical analysis
+statsmodels>=0.14
+
+# Application and reporting
+streamlit>=1.35
+
+# Development and testing
+jupyterlab>=4.2
+ipykernel>=6.29
+pytest>=8.0
+
+# Optional experiment utilities
+tensorboard>=2.17
