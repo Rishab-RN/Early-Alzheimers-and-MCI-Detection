@@ -1,0 +1,11 @@
+task,run_id,cohort,component,value,ci_low,ci_high
+cn_ad,proto_ensemble_resnet3d_cn_ad,oasis3,total_drop,0.06412,0.02013,0.10516
+cn_ad,proto_ensemble_resnet3d_cn_ad,oasis3,label_definition,0.00159,-0.06937,0.06467
+cn_ad,proto_ensemble_resnet3d_cn_ad,oasis3,age_sex,-0.06707,-0.14509,0.07512
+cn_ad,proto_ensemble_resnet3d_cn_ad,oasis3,field_strength,0.01179,-0.07267,0.06335
+cn_ad,proto_ensemble_resnet3d_cn_ad,oasis3,residual,0.11782,-0.04797,0.27623
+cn_mci,proto_ensemble_resnet3d_cn_mci,oasis3,total_drop,0.07339,-0.03874,0.17881
+cn_mci,proto_ensemble_resnet3d_cn_mci,oasis3,label_definition,-0.01123,-0.14695,0.10976
+cn_mci,proto_ensemble_resnet3d_cn_mci,oasis3,age_sex,-0.05127,-0.17397,0.21966
+cn_mci,proto_ensemble_resnet3d_cn_mci,oasis3,field_strength,0.03239,-0.08095,0.12653
+cn_mci,proto_ensemble_resnet3d_cn_mci,oasis3,residual,0.1035,-0.17699,0.26947

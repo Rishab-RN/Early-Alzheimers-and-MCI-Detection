@@ -1,0 +1,5 @@
+true,pred,count
+Neg,Neg,101
+Neg,Pos,12
+Pos,Neg,6
+Pos,Pos,48

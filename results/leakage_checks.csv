@@ -1,0 +1,7 @@
+check,passed,detail
+one_scan_per_subject,True,"3153 subjects, 3153 scans"
+no_subject_in_two_splits,True,0 subjects shared
+external_cohorts_never_trained_on,True,OASIS-3/AIBL used only as test (PROTOCOL.md)
+train_class_counts,True,"MCI=944, CN=920, AD=343"
+val_class_counts,True,"MCI=202, CN=198, AD=73"
+test_class_counts,True,"MCI=202, CN=196, AD=75"

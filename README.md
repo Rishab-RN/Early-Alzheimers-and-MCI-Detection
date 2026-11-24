@@ -1,512 +1,271 @@
-# Explainable Deep Learning model for early Alzheimer's detection using MRI images. 
+<div align="center">
 
-### Cross-Cohort Generalisation, Predictive Reliability and Explanation Robustness in Deep Learning for Alzheimer's Disease and Mild Cognitive Impairment Classification from Structural MRI.
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0b1020,45:4f46e5,100:f59e0b&height=210&section=header&text=Early%20Alzheimer's%20%26%20MCI%20Detection&fontSize=40&fontColor=ffffff&fontAlignY=36&desc=Cross-cohort%20robust%20%C2%B7%20explainable%20%C2%B7%203D%20deep%20learning%20on%20structural%20MRI&descSize=16&descAlignY=58&animation=fadeIn" width="100%"/>
 
-<p align="center">
-  <strong>Research Project | Deep Learning | Medical Image Analysis | Explainable AI</strong>
+<a href="#-quick-start"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&duration=2800&pause=900&color=818CF8&center=true&vCenter=true&width=720&lines=3D+ResNet+on+T1-weighted+brain+MRI;Trained+on+ADNI+%E2%86%92+tested+zero-shot+on+OASIS-3;Integrated+Gradients+%2B+Grad-CAM+explanations;Upload+a+scan+%E2%86%92+risk+%2B+explanation+%2B+reliability" alt="Typing SVG"/></a>
+
+<p>
+<img src="https://img.shields.io/badge/Python-3.10-3776AB?logo=python&logoColor=white"/>
+<img src="https://img.shields.io/badge/PyTorch-2.11%20%C2%B7%20CUDA%2012.8-EE4C2C?logo=pytorch&logoColor=white"/>
+<img src="https://img.shields.io/badge/MONAI-1.6-00A98F"/>
+<img src="https://img.shields.io/badge/FastAPI-dashboard-009688?logo=fastapi&logoColor=white"/>
+<img src="https://img.shields.io/badge/React-Vite%20%C2%B7%20Tailwind-61DAFB?logo=react&logoColor=black"/>
+<img src="https://img.shields.io/badge/runs-100%25%20offline-10b981"/>
+<img src="https://img.shields.io/badge/status-research%20in%20progress-f59e0b"/>
 </p>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3.11-blue?logo=python" alt="Python 3.11">
-  <img src="https://img.shields.io/badge/PyTorch-Deep%20Learning-ee4c2c?logo=pytorch" alt="PyTorch">
-  <img src="https://img.shields.io/badge/MONAI-Medical%20Imaging-00a98f" alt="MONAI">
-  <img src="https://img.shields.io/badge/Research-In%20Progress-orange" alt="Research in progress">
-</p>
+<img src="docs/assets/brain_attribution.gif" width="300" alt="Group-mean Integrated Gradients attribution sweeping through the brain"/>
+
+<sub><i>Group-mean Integrated Gradients for CN vs AD (ADNI test set) on the MNI152 template: the model concentrates on the medial temporal lobe.</i></sub>
+
+</div>
 
 ---
 
-## Overview
+## ✨ What this project does
 
-Deep learning has shown considerable potential in analysing structural brain MRI for Alzheimer's disease classification. However, classification performance alone does not establish whether a model can be trusted.
+Most Alzheimer's MRI classifiers report one accuracy on one dataset. This project asks the harder questions:
 
-A model may produce a confident prediction despite being incorrect. Its performance may deteriorate when evaluated on data collected using different scanners, imaging protocols, or patient populations. Even when two models make the same prediction, they may rely on substantially different anatomical information.
-
-This project investigates the reliability of deep learning models for Alzheimer's disease classification using three-dimensional T1-weighted brain MRI.
-
-Rather than focusing exclusively on classification accuracy, the study examines the relationship between predictive uncertainty and explanation stability. It investigates whether combining these signals can help identify unreliable predictions, particularly when a model is evaluated across different imaging cohorts.
-
-The research uses the Alzheimer's Disease Neuroimaging Initiative (ADNI) as the proposed development cohort and OASIS-3 as the proposed independent external validation cohort.
-
-## Research Question
-
-**Can predictive uncertainty and explanation instability jointly identify unreliable Alzheimer's disease MRI classifications under cross-cohort distribution shift, and does their combination improve error detection compared with either signal independently?**
-
-## Research Objectives
-
-1. Develop deep learning models for three-class classification of structural brain MRI into Cognitively Normal (CN), Mild Cognitive Impairment (MCI), and Alzheimer's Disease (AD) groups.
-2. Evaluate model generalisation across independently collected imaging cohorts.
-3. Investigate calibration and predictive uncertainty under changes in cohort distribution.
-4. Measure the consistency of model explanations across training seeds, input perturbations, and architectures.
-5. Examine anatomical feature contributions using atlas-based regional analysis and SHAP.
-6. Evaluate whether combining uncertainty and explanation instability improves error detection and selective prediction.
-
-
----
-
-## Dataset Selection
-
-### 1. Alzheimer's Disease Neuroimaging Initiative (ADNI)
-
-**Role:** Model development and internal evaluation.
-
-ADNI is a longitudinal research initiative containing neuroimaging, clinical, cognitive, and demographic information collected across multiple study phases.
-
-The proposed study will use eligible T1-weighted structural MRI scans and corresponding clinical information.
-
-Official resource: https://adni.loni.usc.edu/
-
-### 2. Open Access Series of Imaging Studies (OASIS-3)
-
-**Role:** Independent external evaluation.
-
-OASIS-3 provides longitudinal neuroimaging and clinical information from participants across different stages of cognitive health and decline.
-
-Its use as an external cohort allows the study to examine whether model reliability changes when evaluated on data collected independently of the development cohort.
-
-Official resource: https://sites.wustl.edu/oasisbrains/home/oasis-3/
-
-### Dataset Strategy
-
-| Dataset | Research role | Proposed use |
+| | Question | How |
 |---|---|---|
-| ADNI | Development cohort | Training, validation and internal testing |
-| OASIS-3 | External cohort | Frozen external evaluation |
+| 🧠 | **Can a 3D CNN detect AD and MCI from a T1 MRI?** | 3D ResNet-18 vs a simple ANN (MLP) vs age-only and hippocampal-volume baselines |
+| 🌍 | **Does it still work on a different cohort?** | Train on **ADNI**, evaluate **zero-shot** on **OASIS-3** (different scanners, sites, population) |
+| 🔍 | **Is it looking at the right anatomy?** | Integrated Gradients + Grad-CAM, aggregated to 112 Harvard-Oxford regions, compared across cohorts |
+| 🛡️ | **Can we tell when a prediction should not be trusted?** | ADRS, an attribution-atypicality score, against MSP, energy, MC-dropout, ensembles, feature Mahalanobis |
+| 🧩 | **Why does performance drop across cohorts?** | Shift decomposition: label definition → age/sex → field strength → residual |
 
-**Clinical label harmonisation is a critical part of the study.** ADNI diagnostic categories and OASIS-3 clinical assessments cannot be assumed to be directly interchangeable. MRI sessions must be matched to suitable clinical assessments, and ambiguous cases must be handled using predefined eligibility criteria.
-
-The final sample counts will be reported after data access, cohort construction, and quality control.
-
-> **Data access status:** Applications and authorisations are pending. No claim is made that the datasets have already been acquired or processed.
-
-### Data Governance
-
-Both datasets are subject to their respective access agreements and research-use restrictions. Raw imaging data, participant-level information, and access credentials will not be committed to this repository.
+All of it is wrapped in a **local web app**: drop in a NIfTI MRI and get a calibrated risk, a 3D explanation map and a reliability flag.
 
 ---
 
-## Proposed Research Methodology
+## 🏗️ Pipeline
 
-The methodology is organised into eight stages.
+```mermaid
+flowchart LR
+    A[Raw T1 MRI<br/>NIfTI / DICOM] --> B[N4 bias<br/>correction]
+    B --> C[HD-BET<br/>skull strip · GPU]
+    C --> D[Affine to<br/>MNI152 2009c]
+    D --> E[2 mm crop<br/>80×96×88]
+    E --> F[3D ResNet-18<br/>seed ensemble]
+    F --> G[Temperature<br/>scaling]
+    G --> H((CN / MCI / AD<br/>risk))
+    F --> I[Integrated Gradients<br/>+ Grad-CAM]
+    I --> J[112 ROI<br/>profile]
+    J --> K{ADRS<br/>reliability}
+    K --> H
+    style H fill:#4f46e5,color:#fff,stroke:#4f46e5
+    style K fill:#f59e0b,color:#000,stroke:#f59e0b
+```
 
-### Stage 1 — Cohort Construction
+**Protocol:**
+- One scan per subject.
+- Subject-level splits with leakage checks.
+- OASIS-3 locked as an external test set: configs were frozen in [`docs/PROTOCOL.md`](docs/PROTOCOL.md) before any external evaluation.
+- Thresholds and temperatures come from ADNI validation only.
+- Bootstrap 95% CIs.
 
-- Identify eligible T1-weighted MRI sessions.
-- Retrieve corresponding clinical assessments.
-- Establish CN, MCI, and AD group definitions.
-- Match imaging sessions with appropriate clinical assessments.
-- Apply predefined inclusion and exclusion criteria.
-- Construct participant-level development and evaluation partitions.
+Every decision is logged in [`docs/DECISIONS.md`](docs/DECISIONS.md).
 
-### Stage 2 — MRI Preprocessing
+---
 
-The proposed preprocessing pipeline consists of:
+## 📊 Results (preliminary)
 
-1. **Image conversion:** Convert DICOM images into NIfTI format when required.
-2. **Orientation standardisation:** Establish a consistent image orientation.
-3. **Bias-field correction:** Evaluate N4 correction to address intensity non-uniformity.
-4. **Brain extraction:** Remove non-brain tissue when required by the selected pipeline.
-5. **Spatial registration:** Align images to a common MNI152 reference space.
-6. **Resampling:** Standardise voxel spacing, initially targeting approximately 2 mm isotropic resolution.
-7. **Intensity normalisation:** Apply a consistent normalisation procedure.
-8. **Quality control:** Inspect registration, image dimensions, extraction quality, and corrupted scans.
-9. **Data augmentation:** Apply controlled transformations exclusively to training samples.
+> Models were trained on the ~2,000 ADNI scans preprocessed so far, as a 2-seed ensemble. They were evaluated on the held-out ADNI test split and, zero-shot, on a stratified OASIS-3 subset, with clinical-diagnosis labels. Full-cohort runs are in progress.
 
-The proposed model input is a single-channel volumetric MRI of approximately 96 × 96 × 96 voxels. Final dimensions and preprocessing parameters will be confirmed through pilot experiments.
+<div align="center"><img src="docs/assets/model_comparison.png" width="92%" alt="AUROC by model and cohort"/></div>
 
-### Stage 3 — Deep Learning Architecture
+| Task | Model | ADNI AUROC | ADNI accuracy | ADNI F1 | **OASIS-3 AUROC** (zero-shot) | OASIS-3 F1 |
+|---|---|:-:|:-:|:-:|:-:|:-:|
+| CN vs AD | Age only | 0.664 | 0.626 | 0.492 | 0.717 | 0.674 |
+| CN vs AD | Hippocampal volume + age | 0.876 | 0.813 | 0.628 | 0.871 | 0.779 |
+| CN vs AD | MLP (simple ANN) | 0.861 | 0.832 | 0.720 | 0.813 | 0.712 |
+| CN vs AD | **3D ResNet ensemble** | **0.949** | **0.892** | **0.842** | **0.885** | **0.787** |
+| CN vs MCI | Age only | 0.568 | 0.565 | 0.534 | 0.668 | 0.386 |
+| CN vs MCI | Hippocampal volume + age | 0.730 | 0.658 | 0.679 | 0.716 | 0.390 |
+| CN vs MCI | MLP (simple ANN) | 0.637 | 0.570 | 0.677 | 0.511 | 0.292 |
+| CN vs MCI | **3D ResNet ensemble** | 0.705 | 0.641 | 0.585 | 0.632 | 0.343 |
 
-Three model architectures are planned.
+**Takeaways so far**
 
-| Architecture | Purpose |
+- 🟢 **CN vs AD transfers well:** AUROC is 0.949 on ADNI and 0.885 on the unseen cohort, ahead of every baseline.
+- 🟠 **CN vs MCI is the hard part:** the CNN does not yet beat hippocampal volume + age. It drops further on OASIS-3, where "MCI" is defined differently.
+- 🔍 **Explanations are stable across cohorts:** for CN vs AD, the ADNI and OASIS-3 ROI attribution profiles correlate at Spearman ρ = 0.998. About 40% of the attribution mass falls in a-priori AD regions (hippocampus, amygdala, parahippocampal and temporal cortex).
+- 🛡️ **Honest negative result:** in these preliminary runs ADRS does **not** detect errors better than plain softmax confidence. On OASIS-3 (CN vs AD), its error-detection AUROC is 0.55 against 0.69 for softmax confidence. This is reported as-is and will be re-tested on the full cohorts.
+
+<details>
+<summary><b>🧠 Explanation maps: Integrated Gradients vs Grad-CAM, ADNI vs OASIS-3</b></summary>
+<br/>
+<div align="center"><img src="docs/assets/attribution_maps.png" width="80%"/></div>
+
+These are group-mean maps on the MNI152NLin2009cAsym template, shown as sagittal, coronal and axial slices. The full maps are in `results/maps/` and on the app's Explainability page.
+</details>
+
+<details>
+<summary><b>📁 Everything in <code>results/</code></b></summary>
+
+| File / folder | Contents |
 |---|---|
-| Custom 3D CNN | Baseline volumetric feature learning |
-| 3D ResNet-18 | Primary architecture for reliability evaluation |
-| Compact 3D DenseNet | Supporting architectural comparison |
+| `metrics.csv` | Accuracy, balanced accuracy, precision, recall, F1, AUROC and ECE with bootstrap CIs, per run × cohort × label definition × subset |
+| `curves/`, `confusion/` | ROC / PR curves and confusion matrices |
+| `training_curves/` | Per-epoch loss, accuracy and AUROC |
+| `xai_stats.csv`, `roi_attribution/`, `maps/` | Cross-cohort explanation agreement, deletion faithfulness, randomization sanity check, ROI profiles and group-mean NIfTI maps |
+| `reliability.csv`, `risk_coverage/` | Error-detection AUROC, AURC, and accuracy at 80/90% coverage for six reliability scores |
+| `shift_decomposition.csv` | The ADNI → OASIS-3 drop, split into label, age/sex, field-strength and residual parts |
+| `calibration/` | Ensemble checkpoints, temperatures, decision threshold and the ADRS reference (aggregate statistics only) |
 
-Three-dimensional convolutions preserve spatial relationships across the axial, coronal, and sagittal dimensions of MRI volumes.
-
-The initial training configuration includes:
-
-- AdamW optimiser.
-- Cosine learning-rate scheduling.
-- Class-weighted cross-entropy.
-- Validation-based early stopping.
-- Mixed-precision training where supported.
-- Multiple independent training seeds.
-
-### Stage 4 — Calibration and Uncertainty Estimation
-
-Classification confidence and prediction reliability are not equivalent.
-
-The study will investigate:
-
-**Calibration**
-- Temperature scaling.
-- Expected Calibration Error (ECE).
-- Brier score.
-- Negative Log-Likelihood (NLL).
-- Reliability diagrams.
-
-**Predictive uncertainty**
-- Maximum Softmax Probability.
-- Predictive Entropy.
-- Monte Carlo Dropout as an optional extension.
-
-Temperature scaling will be fitted using ADNI validation data and frozen before external evaluation.
-
-### Stage 5 — Explainability Analysis
-
-Two complementary explainability approaches are proposed.
-
-**A. Spatial attribution**
-
-Integrated Gradients or 3D Grad-CAM will be used to investigate which spatial regions influence model predictions.
-
-The analysis will examine:
-- Attribution patterns across training seeds.
-- Sensitivity to controlled input perturbations.
-- Similarity between explanations produced by different architectures.
-- Differences between correct and incorrect predictions.
-
-**B. Regional SHAP analysis**
-
-A predefined anatomical atlas will be used to derive regional MRI measurements.
-
-The proposed analysis includes:
-- Anatomical region extraction.
-- Construction of regional feature representations.
-- Training of a separate regional-feature classifier.
-- SHAP-based feature contribution analysis.
-- Comparison of influential regions across clinical groups.
-
-SHAP explanations from the regional-feature classifier will be interpreted separately from voxel-level explanations produced by the 3D CNN. They will not be presented as explanations of the CNN's internal decisions.
-
-### Stage 6 — Explanation Stability
-
-Explanation stability will be studied through three comparisons:
-
-| Analysis | Objective |
-|---|---|
-| Seed stability | Examine attribution consistency across independently trained models |
-| Perturbation stability | Evaluate explanation changes under controlled input modifications |
-| Architecture stability | Compare attribution patterns across different model architectures |
-
-Regional SHAP consistency will be investigated as a complementary analysis.
-
-### Stage 7 — Joint Reliability Assessment
-
-The central experiment investigates whether predictive uncertainty and explanation instability provide complementary information.
-
-Let:
-
-- \(U\) represent predictive uncertainty.
-- \(I\) represent explanation instability.
-
-Three approaches will be compared:
-
-\[
-S_1 = U
-\]
-
-\[
-S_2 = I
-\]
-
-\[
-S_3 = \alpha U + \beta I
-\]
-
-The signals will be standardised using ADNI validation statistics. Any combination weights will be fixed or estimated using development data only.
-
-The comparison will investigate whether the combined score identifies classification errors more effectively than either individual signal.
-
-SHAP regional importance will remain a complementary interpretation analysis rather than being automatically incorporated into the primary reliability score.
-
-### Stage 8 — External Evaluation
-
-After model selection and development-stage analysis, the final configuration will be frozen.
-
-The external evaluation will use OASIS-3 without tuning model weights, calibration parameters, thresholds, or preprocessing settings based on external test results.
-
-This stage will assess the transferability of classification and reliability characteristics across cohorts.
+Column specs are in [`results/CONTRACT.md`](results/CONTRACT.md). Subject-level predictions are never published.
+</details>
 
 ---
 
-## Evaluation Metrics
+## 🖥️ The app
 
-| Category | Metrics |
-|---|---|
-| Classification | Balanced Accuracy, Macro-F1, Macro AUROC |
-| Class-wise performance | Precision, Recall, Confusion Matrix |
-| Calibration | ECE, Brier Score, NLL |
-| Uncertainty | Error-detection AUROC |
-| Selective prediction | AURC, Risk at 80% Coverage |
-| Explanation stability | Spatial similarity and attribution consistency |
-| Regional explainability | SHAP feature contributions and consistency |
-| Statistical analysis | Participant-level bootstrap confidence intervals |
+<table>
+<tr>
+<td width="55%">
 
-Participant-level evaluation and statistical resampling will be used to avoid treating multiple scans or slices from the same participant as independent observations.
+**Analyse scan**: upload a `.nii` / `.nii.gz` T1 MRI and the app:
 
----
+1. preprocesses it with N4 → HD-BET → MNI registration (about 2 min on a 4 GB GPU),
+2. runs the calibrated CN/AD and CN/MCI ensembles,
+3. shows an interactive 3D viewer (NiiVue) with an **IG / Grad-CAM** overlay,
+4. lists the top brain regions behind the decision,
+5. flags the prediction as **reliable** or **review**, using ADRS.
 
-## Technology Stack
+The other pages:
+- **Performance:** ROC, calibration, loss and accuracy curves, baselines.
+- **Explainability**
+- **Reliability**
+- **Data**
+- **About:** the roadmap.
 
-| Component | Technology |
-|---|---|
-| Programming language | Python 3.11 |
-| Deep learning | PyTorch |
-| Medical imaging | MONAI |
-| MRI file handling | nibabel |
-| Image registration | ANTs / ANTsPy |
-| DICOM conversion | dcm2niix |
-| Model interpretation | Captum |
-| SHAP analysis | SHAP |
-| Neuroimaging analysis | Nilearn |
-| Numerical computing | NumPy, SciPy |
-| Data processing | pandas |
-| Evaluation | scikit-learn |
-| Visualisation | Matplotlib |
-| Experiment tracking | MLflow / structured experiment logs |
-| Compute environment | Google Colab GPU, subject to data-use approval |
-
----
-
-## Experimental Design
-
-The planned experiments are organised as follows:
-
-| Experiment | Investigation |
-|---|---|
-| E1 | Internal classification performance on ADNI |
-| E2 | External performance evaluation on OASIS-3 |
-| E3 | Calibration transfer across cohorts |
-| E4 | Uncertainty-based error detection |
-| E5 | Explanation stability across training seeds |
-| E6 | Regional SHAP attribution analysis |
-| E7 | Combined uncertainty and explanation-instability analysis |
-| E8 | Selective prediction under distribution shift |
-
-The primary research comparison is the error-detection performance of the combined reliability signal against uncertainty alone on the frozen external cohort.
-
----
-
-## Reproducibility and Leakage Prevention
-
-Reliability analysis requires strict separation between model development and external evaluation.
-
-The following controls are planned:
-
-- Participant-level dataset splitting.
-- No participant overlap between training, validation, and internal testing.
-- All scans from the same participant remain in one partition.
-- Preprocessing procedures are applied consistently.
-- Data augmentation is restricted to training samples.
-- Calibration parameters are fitted using validation data only.
-- External cohort evaluation remains frozen.
-- Random seeds, model configurations, and checkpoints are recorded.
-- Raw restricted datasets are excluded from version control.
-
----
-
-## Project Timeline
-
-The project is planned over twelve weeks.
-
-| Phase | Timeline | Activities |
-|---|---|---|
-| Research setup | Week 1 | Literature review, access applications, protocol definition |
-| Cohort construction | Week 2 | Clinical label mapping and data inventory |
-| Preprocessing | Weeks 3–4 | MRI preprocessing and feasibility testing |
-| Model development | Weeks 5–7 | Architecture implementation and training |
-| Reliability analysis | Weeks 8–9 | Uncertainty, attribution, SHAP and model freeze |
-| External evaluation | Week 10 | Frozen OASIS-3 evaluation, subject to access |
-| Statistical analysis | Week 11 | Joint reliability experiments |
-| Research documentation | Week 12 | Paper, presentation and final documentation |
-
-The schedule depends on timely dataset authorisation and available compute resources.
-
----
-
-## Expected Research Contributions
-
-The study aims to contribute:
-
-1. A systematic evaluation of classification reliability beyond conventional performance metrics.
-2. An investigation of calibration and predictive uncertainty under cross-cohort distribution shift.
-3. A quantitative analysis of explanation stability across training seeds and architectures.
-4. A complementary regional interpretation analysis using SHAP.
-5. An evaluation of whether uncertainty and explanation instability jointly improve error detection.
-6. A reproducible methodology for assessing reliability in volumetric medical-image classification.
-
-These are intended contributions, not completed findings.
-
-## Limitations
-
-The study recognises several limitations:
-
-- Dataset access and data-use approvals may affect the implementation timeline.
-- Clinical diagnostic labels may differ between cohorts.
-- MRI acquisition differences can introduce distribution shift.
-- Explanation stability does not establish clinical correctness.
-- SHAP regional analysis uses a separate feature-based model and may not reflect the internal reasoning of the 3D CNN.
-- The combined reliability score may not outperform uncertainty alone.
-- External validation on one independent cohort does not establish clinical generalisability.
-
-The study is intended for research evaluation and is not a clinical diagnostic system.
-
----
-
-## Repository Structure
+</td>
+<td>
 
 ```text
-alzheimer-mri-reliability/
-│
-├── configs/
-│   ├── data.yaml
-│   ├── preprocessing.yaml
-│   ├── model.yaml
-│   └── experiment.yaml
-│
-├── data/
-│   ├── raw/
-│   ├── interim/
-│   ├── processed/
-│   └── README.md
-│
-├── notebooks/
-│   ├── 01_data_exploration.ipynb
-│   ├── 02_mri_quality_control.ipynb
-│   ├── 03_preprocessing_validation.ipynb
-│   └── 04_explainability_analysis.ipynb
-│
-├── src/
-│   ├── data/
-│   │   ├── cohort_builder.py
-│   │   ├── dataset.py
-│   │   └── preprocessing.py
-│   │
-│   ├── models/
-│   │   ├── cnn3d.py
-│   │   ├── resnet3d.py
-│   │   └── densenet3d.py
-│   │
-│   ├── training/
-│   │   ├── train.py
-│   │   ├── evaluate.py
-│   │   └── calibration.py
-│   │
-│   ├── uncertainty/
-│   │   └── estimation.py
-│   │
-│   ├── explainability/
-│   │   ├── integrated_gradients.py
-│   │   ├── gradcam.py
-│   │   └── shap_analysis.py
-│   │
-│   ├── reliability/
-│   │   ├── explanation_stability.py
-│   │   ├── reliability_score.py
-│   │   └── selective_prediction.py
-│   │
-│   └── evaluation/
-│       ├── metrics.py
-│       └── statistical_analysis.py
-│
-├── experiments/
-│   ├── configs/
-│   └── logs/
-│
-├── reports/
-│   ├── figures/
-│   └── tables/
-│
-├── tests/
-│
-├── requirements.txt
-├── .gitignore
-├── LICENSE
-└── README.md
+┌──────────────────────────────┐
+│  CN vs AD        ▓▓▓▓▓▓▓░ 0.87│
+│  → AD   reliable ✓            │
+│  top: L hippocampus, R amyg.. │
+├──────────────────────────────┤
+│  CN vs MCI       ▓▓▓▓░░░ 0.58│
+│  → MCI  review ⚠             │
+├──────────────────────────────┤
+│  [ 3D MRI + attribution map ] │
+└──────────────────────────────┘
 ```
 
-This structure describes the intended organisation; directories and files will be added as implementation progresses.
+</td>
+</tr>
+</table>
+
+Everything runs on `127.0.0.1`: there are no uploads, no telemetry and no cloud.
 
 ---
 
-## Getting Started
+## 🚀 Quick start
 
-### Prerequisites
+**You need:**
+- Windows 10/11
+- Python 3.10
+- an NVIDIA GPU with CUDA 12.8 drivers (4 GB is enough; CPU works but is slow)
+- about 6 GB of disk
 
-- Python 3.11
-- Git
-- PyTorch-compatible compute environment
-- Google Colab GPU or an approved alternative
-- Authorised access to the selected datasets
-
-### Environment Setup
-
-Clone the repository:
-
-```bash
+```powershell
 git clone https://github.com/Rishab-RN/Early-Alzheimers-and-MCI-Detection.git
-cd alzheimer-mri-reliability
+cd Early-Alzheimers-and-MCI-Detection
+powershell -ExecutionPolicy Bypass -File setup.ps1     # venvs + template/atlas + HD-BET weights
+.\run_dashboard.bat                                    # opens http://127.0.0.1:8000
 ```
 
-Create a Python environment:
+The trained weights (`models/runs/`) and all aggregate results ship with the repo, so the app works right after setup. Upload any T1-weighted brain MRI in NIfTI format.
+
+<details>
+<summary><b>No GPU?</b></summary>
+
+Set `ANN_APP_CPU=1` before starting the dashboard to force CPU inference. For a CPU-only install, edit `requirements.txt`: remove the `--extra-index-url` line and the `+cu128` suffixes.
+</details>
+
+<details>
+<summary><b>Linux / macOS</b></summary>
 
 ```bash
-conda create -n alzheimer-mri python=3.11
-conda activate alzheimer-mri
+python3.10 -m venv .venv-gpu && .venv-gpu/bin/pip install -r requirements.txt
+python3.10 -m venv .venv-app && .venv-app/bin/pip install -r app/requirements.txt
+.venv-gpu/bin/python src/fetch_references.py && .venv-gpu/bin/python download_hd_bet_weights.py
+.venv-app/bin/python -m uvicorn app.server:app --host 127.0.0.1 --port 8000
+```
+</details>
+
+---
+
+## 🔬 Reproduce the research
+
+The imaging data is **not** redistributable. Apply for free access yourself:
+
+| Cohort | Role | Access |
+|---|---|---|
+| [ADNI](https://adni.loni.usc.edu/data-samples/access-data/) | train / validation / internal test | IDA account + data use agreement |
+| [OASIS-3](https://sites.wustl.edu/oasisbrains/home/oasis-3/) | locked external test | NITRC-IR account + data use terms |
+| [AIBL](https://aibl.org.au/) | second external test (planned) | via IDA |
+
+```text
+ADNI   : src/adni_select.py → src/fetch_urls.py → src/adni_convert.py
+OASIS-3: python scripts/oasis3/start_background_download.py   (asks for your NITRC login)
+Labels : src/labels_v2.py   → src/splits.py
+Prep   : src/preprocess.py --manifest <csv>  (N4 → HD-BET → MNI affine, QC)
+Cache  : src/cache_tensors.py
+Train  : src/train.py --task cn_ad --seed 0 --res 2  (also mlp_baseline.py, baselines.py)
+Eval   : src/evaluate.py      (frozen configs only, + BN-adapt / TENT)
+XAI    : src/xai_reliability.py → src/shift_decomposition.py → src/make_paper_assets.py
 ```
 
-Install dependencies:
+`src/auto_pipeline.py` chains everything and resumes after interruptions. Set `ANN_RUN_PREFIX` to tag a set of runs.
 
-```bash
-pip install -r requirements.txt
+<details>
+<summary><b>🗂️ Repository layout</b></summary>
+
+```text
+├── app/                 FastAPI server + React/Vite frontend (prebuilt in app/web/dist)
+├── src/                 preprocessing, training, evaluation, XAI, reliability, app engine
+├── scripts/oasis3/      OASIS-3 downloader, labels and QC
+├── models/runs/         trained 3D ResNet checkpoints (CN/AD, CN/MCI × 2 seeds)
+├── results/             aggregate metrics, curves, maps, calibration
+├── docs/                PROTOCOL.md (frozen configs), DECISIONS.md, README assets
+├── journey.md           research log
+├── setup.ps1            one-time setup
+└── run_dashboard.bat    start the app
 ```
-
-Install the appropriate PyTorch build for the available hardware using the official installation instructions:
-
-https://pytorch.org/get-started/locally/
-
-### Dataset Configuration
-
-Place authorised data in the appropriate local or institution-approved storage location.
-
-Update the configuration files with the relevant data paths.
-
-Do not upload raw MRI scans, identifiable clinical information, or dataset credentials to GitHub.
-
-### Running Experiments
-
-Training and evaluation commands will be documented as the corresponding modules are implemented.
-
+</details>
 
 ---
 
-## References and Technical Resources
+## 🗺️ Roadmap
 
-1. ADNI — https://adni.loni.usc.edu/
-2. OASIS-3 — https://sites.wustl.edu/oasisbrains/home/oasis-3/
-3. MONAI — https://monai.io/
-4. PyTorch — https://pytorch.org/
-5. Captum — https://captum.ai/
-6. SHAP — https://shap.readthedocs.io/
-7. Nilearn — https://nilearn.github.io/
-
-Research references will be expanded as the literature review is finalised.
-
----
-
-## Project Status
-
-**Current stage: Research planning and methodology finalisation.**
-
-Dataset applications, cohort construction, preprocessing validation, and model implementation are pending.
-
-The repository will be updated as individual research components are implemented and experimentally validated.
+- [x] Leakage-free ADNI + OASIS-3 pipeline with QC and three harmonised label definitions
+- [x] 3D ResNet, MLP, age-only and hippocampal-volume baselines; loss and accuracy curves
+- [x] Zero-shot external evaluation with bootstrap CIs; BN-adapt and TENT
+- [x] Integrated Gradients + Grad-CAM, cross-cohort explanation comparison
+- [x] ADRS reliability vs five baselines; shift decomposition
+- [x] Local app: upload → risk → explanation → reliability
+- [ ] Full-cohort training (all ADNI, 5 seeds) and full OASIS-3 evaluation
+- [ ] MedicalNet transfer learning
+- [ ] AIBL as a second external cohort
+- [ ] Test-time augmentation; sMCI vs pMCI
+- [ ] IEEE conference paper
 
 ---
 
-<p align="center">
-  <strong>Beyond classification performance: investigating when and why medical imaging models can be trusted.</strong>
-</p>
+## ⚠️ Disclaimer
+
+**This is a research prototype, not a medical device.** It has not been clinically validated and must not be used for diagnosis or treatment decisions.
+
+## 🙏 Acknowledgements
+
+Data collection and sharing for this project was funded by the Alzheimer's Disease Neuroimaging Initiative (ADNI). Data were provided in part by OASIS-3 (principal investigators T. Benzinger, D. Marcus, J. Morris).
+
+Built with [MONAI](https://monai.io), [HD-BET](https://github.com/MIC-DKFZ/HD-BET), [ANTsPy](https://github.com/ANTsX/ANTsPy), [Captum](https://captum.ai), [nilearn](https://nilearn.github.io), [TemplateFlow](https://www.templateflow.org) and [NiiVue](https://github.com/niivue/niivue).
+
+This is a course project for *Artificial Neural Networks and Deep Learning* (AI2531A), B.Tech CSE (AI & ML), RV College of Engineering.
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:f59e0b,55:4f46e5,100:0b1020&height=110&section=footer" width="100%"/>

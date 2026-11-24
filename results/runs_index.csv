@@ -1,0 +1,16 @@
+run_id,timestamp,git_hash,model,task,label_def,seed,config_path,frozen,status
+age_only_cn_ad,2026-11-19T03:05,665356e,age_only,cn_ad,clinical,0,"PROTOCOL.md baselines (logistic regression, balanced)",True,done thr=0.494
+hv_age_cn_ad,2026-11-19T03:07,665356e,hv_age,cn_ad,clinical,0,"PROTOCOL.md baselines (logistic regression, balanced)",True,done thr=0.591
+age_only_cn_mci,2026-11-19T03:09,665356e,age_only,cn_mci,clinical,0,"PROTOCOL.md baselines (logistic regression, balanced)",True,done thr=0.508
+hv_age_cn_mci,2026-11-19T03:11,665356e,hv_age,cn_mci,clinical,0,"PROTOCOL.md baselines (logistic regression, balanced)",True,done thr=0.478
+proto15_resnet3d_cn_ad_s0,2026-11-19T09:03,52ff5c2,resnet3d,cn_ad,clinical,0,"{""model"": ""resnet3d"", ""task"": ""cn_ad"", ""seed"": 0, ""res"": 1.5, ""epochs"": 50, ""patience"": 12, ""bs"": 4, ""accum"": 2, ""lr"": 0.0003, ""wd"": 0.0001, ""workers"": 0, ""smoke"": false}",False,done best_val_auc=0.9671@31
+proto_resnet3d_cn_ad_s0,2026-11-23T22:54,2628058,resnet3d,cn_ad,clinical,0,"{""model"": ""resnet3d"", ""task"": ""cn_ad"", ""seed"": 0, ""res"": 2.0, ""epochs"": 45, ""patience"": 10, ""bs"": 4, ""accum"": 2, ""lr"": 0.0003, ""wd"": 0.0001, ""workers"": 0, ""smoke"": false}",False,done best_val_auc=0.9577@41
+proto_resnet3d_cn_mci_s0,2026-11-23T23:23,2628058,resnet3d,cn_mci,clinical,0,"{""model"": ""resnet3d"", ""task"": ""cn_mci"", ""seed"": 0, ""res"": 2.0, ""epochs"": 45, ""patience"": 10, ""bs"": 4, ""accum"": 2, ""lr"": 0.0003, ""wd"": 0.0001, ""workers"": 0, ""smoke"": false}",False,done best_val_auc=0.6575@16
+proto_resnet3d_cn_ad_s1,2026-11-24T03:44,be912a1,resnet3d,cn_ad,clinical,1,"{""model"": ""resnet3d"", ""task"": ""cn_ad"", ""seed"": 1, ""res"": 2.0, ""epochs"": 45, ""patience"": 10, ""bs"": 4, ""accum"": 2, ""lr"": 0.0003, ""wd"": 0.0001, ""workers"": 0, ""smoke"": false}",False,done best_val_auc=0.9552@25
+proto_resnet3d_cn_mci_s1,2026-11-24T04:20,be912a1,resnet3d,cn_mci,clinical,1,"{""model"": ""resnet3d"", ""task"": ""cn_mci"", ""seed"": 1, ""res"": 2.0, ""epochs"": 45, ""patience"": 10, ""bs"": 4, ""accum"": 2, ""lr"": 0.0003, ""wd"": 0.0001, ""workers"": 0, ""smoke"": false}",False,done best_val_auc=0.6627@34
+proto_mlp_cn_ad,2026-11-24T06:55,,mlp,cn_ad,clinical,0,src/mlp_baseline.py,True,done best_val_auc=0.9041
+proto_mlp_cn_mci,2026-11-24T06:57,,mlp,cn_mci,clinical,0,src/mlp_baseline.py,True,done best_val_auc=0.5857
+proto_age_only_cn_ad,2026-11-24T07:01,ff0e9fd,age_only,cn_ad,clinical,0,"PROTOCOL.md baselines (logistic regression, balanced)",True,done thr=0.494
+proto_hv_age_cn_ad,2026-11-24T07:03,ff0e9fd,hv_age,cn_ad,clinical,0,"PROTOCOL.md baselines (logistic regression, balanced)",True,done thr=0.591
+proto_age_only_cn_mci,2026-11-24T07:05,ff0e9fd,age_only,cn_mci,clinical,0,"PROTOCOL.md baselines (logistic regression, balanced)",True,done thr=0.508
+proto_hv_age_cn_mci,2026-11-24T07:06,ff0e9fd,hv_age,cn_mci,clinical,0,"PROTOCOL.md baselines (logistic regression, balanced)",True,done thr=0.478

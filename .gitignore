@@ -1,0 +1,29 @@
+# Restricted imaging / clinical data never leaves the machine
+data/
+adni/
+aibl/
+oasis3_t1w/
+oasis3_clinical/
+oasis3_preprocessed/
+references/
+results/predictions/
+*.nii
+*.nii.gz
+*.dcm
+*.zip
+selected_sessions.csv
+labels.csv
+
+# Downloaded third-party weights (fetched by setup.ps1)
+models/hd-bet_params/
+
+# Environments and build output
+.venv*/
+.hf-cache/
+node_modules/
+__pycache__/
+*.pyc
+*.log
+*.pid
+.env
+app/web/.npmrc

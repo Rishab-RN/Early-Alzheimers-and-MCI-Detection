@@ -1,0 +1,22 @@
+{
+  "updated": "2026-11-24 20:02",
+  "oasis3": {
+    "downloaded": 1376,
+    "target": 1376,
+    "preprocessed_ok": 387,
+    "preprocess_failed": 0
+  },
+  "adni": {
+    "selected": 3153,
+    "zip_parts_done": {
+      "batch_A": "10/10",
+      "batch_B": "10/10"
+    },
+    "converted": 3152,
+    "preprocessed_ok": 2029,
+    "preprocess_failed": 0
+  },
+  "aibl": {
+    "access": "application pending"
+  }
+}

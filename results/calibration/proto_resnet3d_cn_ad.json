@@ -1,0 +1,1 @@
+{"checkpoints": ["proto_resnet3d_cn_ad_s0.pt", "proto_resnet3d_cn_ad_s1.pt"], "temperatures": [2.4898152351379395, 1.6652858257293701], "threshold": 0.43539774656295777, "res": 2.0}
