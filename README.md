@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0b1020,45:4f46e5,100:f59e0b&height=210&section=header&text=Early%20Alzheimer's%20%26%20MCI%20Detection&fontSize=40&fontColor=ffffff&fontAlignY=36&desc=Cross-cohort%20robust%20%C2%B7%20explainable%20%C2%B7%203D%20deep%20learning%20on%20structural%20MRI&descSize=16&descAlignY=58&animation=fadeIn" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0b1020,45:4f46e5,100:f59e0b&height=210&section=header&text=Early%20Alzheimer's%20and%20MCI%20Detection&fontSize=40&fontColor=ffffff&fontAlignY=36&desc=Cross-cohort%20robust%20%C2%B7%20explainable%20%C2%B7%203D%20deep%20learning%20on%20structural%20MRI&descSize=16&descAlignY=58&animation=fadeIn" width="100%"/>
 
-<a href="#-quick-start"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&duration=2800&pause=900&color=818CF8&center=true&vCenter=true&width=720&lines=3D+ResNet+on+T1-weighted+brain+MRI;Trained+on+ADNI+%E2%86%92+tested+zero-shot+on+OASIS-3;Integrated+Gradients+%2B+Grad-CAM+explanations;Upload+a+scan+%E2%86%92+risk+%2B+explanation+%2B+reliability" alt="Typing SVG"/></a>
+<a href="#-quick-start"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=18&duration=2800&pause=900&color=818CF8&center=true&vCenter=true&width=820&lines=3D+ResNet+on+T1-weighted+brain+MRI;Trained+on+ADNI+%E2%86%92+tested+zero-shot+on+OASIS-3;Integrated+Gradients+%2B+Grad-CAM+explanations;Upload+a+scan+%E2%86%92+risk+%2B+explanation+%2B+reliability" alt="Typing SVG"/></a>
 
 <p>
 <img src="https://img.shields.io/badge/Python-3.10-3776AB?logo=python&logoColor=white"/>
